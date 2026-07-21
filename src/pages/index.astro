@@ -1,0 +1,38 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const allPosts = await getCollection('posts');
+const posts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const dateFormatter = new Intl.DateTimeFormat('es-ES', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+---
+<BaseLayout title="El simio informado — Noticias reales, contadas por monos">
+  {posts.length === 0 ? (
+    <p class="empty-state">Todavía no hay noticias publicadas. Vuelve pronto.</p>
+  ) : (
+    <ul class="post-list">
+      {posts.map((post) => (
+        <li>
+          <a class="post-card" href={`/posts/${post.slug}/`}>
+            <div class="post-card__banner">
+              {post.data.image && (
+                <img src={post.data.image} alt={post.data.imageAlt ?? ''} loading="lazy" />
+              )}
+            </div>
+            <span class="post-card__tag">
+              {dateFormatter.format(post.data.date)}
+              {post.data.category && ` · ${post.data.category}`}
+            </span>
+            <h2 class="post-card__title">{post.data.title}</h2>
+            <p class="post-card__excerpt">{post.data.excerpt}</p>
+          </a>
+        </li>
+      ))}
+    </ul>
+  )}
+</BaseLayout>

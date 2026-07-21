@@ -1,0 +1,47 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'posts'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+const dateFormatter = new Intl.DateTimeFormat('es-ES', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+---
+<BaseLayout title={`${post.data.title} — El simio informado`} description={post.data.excerpt}>
+  <article class="post-detail">
+    <a href="/" class="back-link">&larr; Volver a portada</a>
+
+    <div class="post-detail__banner">
+      {post.data.image && (
+        <img src={post.data.image} alt={post.data.imageAlt ?? ''} />
+      )}
+    </div>
+
+    <span class="post-card__tag">
+      {dateFormatter.format(post.data.date)}
+      {post.data.category && ` · ${post.data.category}`}
+    </span>
+
+    <h1 class="post-detail__title">{post.data.title}</h1>
+
+    <div class="post-detail__body">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>
