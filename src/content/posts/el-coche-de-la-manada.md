@@ -5,6 +5,7 @@ excerpt: "El ciclomono del Pack Movilianas abandonó la vigésima etapa del Tour
 category: "Deportes"
 image: "/images/expediente-gorila-de-carga.webp"
 bodyImage: "/images/expediente-gorila-de-carga-cuerpo.webp"
+bodyCaption: "Un sanador de la enfermería de lianas aplica los puntos de sutura al ciclomono accidentado, poco después de su traslado desde la ruta de subida."
 imageAlt: "Un ciclomono capuchino colisiona con un enorme mono en una ladera de selva cubierta de lianas."
 
 ---

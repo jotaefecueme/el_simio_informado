@@ -184,12 +184,17 @@ button:focus-visible {
   padding: 3rem 0 5rem;
 }
 
-.post-detail__banner-img {
-  display: block;
-  width: 100%;
-  height: auto;
-  margin: 0 auto 1.5rem;
+.post-detail__banner {
+  aspect-ratio: 16 / 6;
+  overflow: hidden;
   border-radius: 2px;
+  margin-bottom: 1.5rem;
+}
+
+.post-detail__banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .post-detail__title {
@@ -217,6 +222,8 @@ button:focus-visible {
 
 .post-detail__body p {
   margin: 0 0 1.3rem;
+  text-align: justify;
+  hyphens: auto;
 }
 
 /* --- Imagen dentro del cuerpo --- */

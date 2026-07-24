@@ -47,14 +47,10 @@ const restantes = parrafos.slice(corte);
     <a href="/" class="back-link">&larr; Volver a portada</a>
 
     {post.data.image && (
-      <img
-        class="post-detail__banner-img"
-        src={post.data.image}
-        alt={post.data.title}
-        width="1344"
-        height="768"
-      />
-    )}
+  <div class="post-detail__banner">
+    <img src={post.data.image} alt={post.data.title} width="1344" height="768" />
+  </div>
+)}
 
     <span class="post-card__tag">
       {dateFormatter.format(post.data.date)}
