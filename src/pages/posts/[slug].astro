@@ -3,35 +3,58 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('posts');
-  return posts.map((post) => ({
+  const posts = (await getCollection('posts')).filter((p) => !p.data.draft);
+  const ordenadas = posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+  return ordenadas.map((post, i) => ({
     params: { slug: post.slug },
-    props: { post },
+    props: {
+      post,
+      anterior: ordenadas[i + 1] ?? null,
+      siguiente: ordenadas[i - 1] ?? null,
+    },
   }));
 }
 
 interface Props {
   post: CollectionEntry<'posts'>;
+  anterior: CollectionEntry<'posts'> | null;
+  siguiente: CollectionEntry<'posts'> | null;
 }
 
-const { post } = Astro.props;
-const { Content } = await post.render();
+const { post, anterior, siguiente } = Astro.props;
 
 const dateFormatter = new Intl.DateTimeFormat('es-ES', {
   day: 'numeric',
   month: 'long',
   year: 'numeric',
 });
+
+// Partimos el cuerpo en párrafos para poder insertar la imagen en medio
+const parrafos = post.body.split(/\n{2,}/).map((p) => p.trim()).filter(Boolean);
+const corte = Math.min(2, parrafos.length);
+const primeros = parrafos.slice(0, corte);
+const restantes = parrafos.slice(corte);
 ---
-<BaseLayout title={`${post.data.title} — El simio informado`} description={post.data.excerpt}>
+<BaseLayout
+  title={`${post.data.title} — El Simio Informado`}
+  description={post.data.excerpt}
+  image={post.data.image}
+  type="article"
+  publishedDate={post.data.date}
+>
   <article class="post-detail">
     <a href="/" class="back-link">&larr; Volver a portada</a>
 
-    <div class="post-detail__banner">
-      {post.data.image && (
-        <img src={post.data.image} alt={post.data.imageAlt ?? ''} />
-      )}
-    </div>
+    {post.data.image && (
+      <img
+        class="post-detail__banner-img"
+        src={post.data.image}
+        alt={post.data.title}
+        width="1344"
+        height="768"
+      />
+    )}
 
     <span class="post-card__tag">
       {dateFormatter.format(post.data.date)}
@@ -40,8 +63,41 @@ const dateFormatter = new Intl.DateTimeFormat('es-ES', {
 
     <h1 class="post-detail__title">{post.data.title}</h1>
 
+    <p class="post-detail__excerpt">{post.data.excerpt}</p>
+
     <div class="post-detail__body">
-      <Content />
+      {primeros.map((p) => <p>{p}</p>)}
+
+      {post.data.bodyImage && (
+        <figure class="post-body-figure">
+          <img
+            src={post.data.bodyImage}
+            alt={post.data.bodyCaption ?? post.data.title}
+            width="1344"
+            height="768"
+          />
+          {post.data.bodyCaption && <figcaption>{post.data.bodyCaption}</figcaption>}
+        </figure>
+      )}
+
+      {restantes.map((p) => <p>{p}</p>)}
     </div>
+
+    {(anterior || siguiente) && (
+      <nav class="post-nav">
+        {anterior && (
+          <a class="post-nav__link" href={`/posts/${anterior.slug}/`}>
+            <span class="post-nav__label">Noticia anterior</span>
+            {anterior.data.title}
+          </a>
+        )}
+        {siguiente && (
+          <a class="post-nav__link post-nav__link--next" href={`/posts/${siguiente.slug}/`}>
+            <span class="post-nav__label">Noticia siguiente</span>
+            {siguiente.data.title}
+          </a>
+        )}
+      </nav>
+    )}
   </article>
 </BaseLayout>

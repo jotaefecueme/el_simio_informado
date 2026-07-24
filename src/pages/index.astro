@@ -2,8 +2,9 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const allPosts = await getCollection('posts');
-const posts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const posts = (await getCollection('posts'))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
 const dateFormatter = new Intl.DateTimeFormat('es-ES', {
   day: 'numeric',
@@ -11,21 +12,32 @@ const dateFormatter = new Intl.DateTimeFormat('es-ES', {
   year: 'numeric',
 });
 ---
-<BaseLayout title="El simio informado — Noticias reales, contadas por monos">
+<BaseLayout
+  title="El Simio Informado — Noticias reales, contadas por monos"
+  image={posts[0]?.data.image}
+>
   {posts.length === 0 ? (
     <p class="empty-state">Todavía no hay noticias publicadas. Vuelve pronto.</p>
   ) : (
     <ul class="post-list">
-      {posts.map((post) => (
+      {posts.map((post, i) => (
         <li>
           <a class="post-card" href={`/posts/${post.slug}/`}>
             <div class="post-card__banner">
               {post.data.image && (
-                <img src={post.data.image} alt={post.data.imageAlt ?? ''} loading="lazy" />
+                <img
+                  src={post.data.image}
+                  alt=""
+                  loading={i < 2 ? 'eager' : 'lazy'}
+                  width="1344"
+                  height="768"
+                />
               )}
             </div>
             <span class="post-card__tag">
-              {dateFormatter.format(post.data.date)}
+              <time datetime={post.data.date.toISOString()}>
+                {dateFormatter.format(post.data.date)}
+              </time>
               {post.data.category && ` · ${post.data.category}`}
             </span>
             <h2 class="post-card__title">{post.data.title}</h2>
