@@ -7,14 +7,16 @@ interface Props {
   image?: string;
   type?: 'website' | 'article';
   publishedDate?: Date;
+  noindex?: boolean;
 }
 
 const {
   title,
-  description = 'Noticias reales de España, contadas por monos. Gaceta satírica de la selva.',
+  description = 'La actualidad española, contada y pintada por simios. Diario satírico.',
   image,
   type = 'website',
   publishedDate,
+  noindex = false,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site);
@@ -32,6 +34,7 @@ const ogImage = image
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
 
     <meta property="og:type" content={type} />
     <meta property="og:title" content={title} />
@@ -54,9 +57,9 @@ const ogImage = image
   </head>
   <body>
     <header class="site-header">
-      <div class="wrap site-header__inner">
+      <div class="wrap">
         <a href="/" class="site-title">El Simio Informado</a>
-        <span class="site-tagline">Gaceta de la actualidad, versión selva</span>
+        <span class="site-tagline">La actualidad, al óleo</span>
       </div>
     </header>
 
@@ -66,7 +69,8 @@ const ogImage = image
 
     <footer class="site-footer">
       <div class="wrap">
-        El Simio Informado &mdash; noticias reales, contadas por monos.
+        El Simio Informado &mdash; pinacoteca satírica de la actualidad.<br />
+        Todo el contenido es ficticio y humorístico.
       </div>
     </footer>
   </body>
