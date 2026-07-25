@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const WEBHOOK = import.meta.env.PUBLIC_WEBHOOK_URL;
+---
+<BaseLayout title="Mesa de redacción — El Simio Informado">
+  <section class="generar">
+    <h1 class="generar__title">Mesa de redacción</h1>
+    <p class="generar__intro">
+      Pega la URL de una noticia real. La redacción de la selva se encarga del resto.
+      El proceso tarda unos minutos.
+    </p>
+
+    <form class="generar__form" id="form">
+      <label class="generar__label" for="url">URL de la noticia</label>
+      <input class="generar__input" type="url" id="url" required placeholder="https://..." />
+
+      <label class="generar__label" for="key">Clave de acceso</label>
+      <input class="generar__input" type="password" id="key" required />
+
+      <button class="generar__btn" type="submit" id="btn">Enviar a redacción</button>
+    </form>
+
+    <p class="generar__msg" id="msg" hidden></p>
+  </section>
+
+  <script define:vars={{ WEBHOOK }}>
+    const form = document.getElementById('form');
+    const btn  = document.getElementById('btn');
+    const msg  = document.getElementById('msg');
+
+    function mostrar(texto, tipo) {
+      msg.textContent = texto;
+      msg.dataset.tipo = tipo;
+      msg.hidden = false;
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      btn.disabled = true;
+      btn.textContent = 'Enviando…';
+      mostrar('Comprobando la URL…', 'info');
+
+      try {
+        const res = await fetch(WEBHOOK, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            url: document.getElementById('url').value,
+            key: document.getElementById('key').value,
+          }),
+        });
+
+        const data = await res.json().catch(() => ({}));
+
+        if (res.ok) {
+          mostrar(data.mensaje || 'Noticia aceptada.', 'ok');
+          form.reset();
+        } else {
+          mostrar(data.mensaje || 'Algo ha ido mal.', 'error');
+        }
+      } catch (err) {
+        mostrar('La redacción está cerrada ahora mismo: el servicio no responde. Inténtalo más tarde.', 'error');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Enviar a redacción';
+      }
+    });
+  </script>
+</BaseLayout>
