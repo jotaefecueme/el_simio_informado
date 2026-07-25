@@ -30,7 +30,6 @@ const dateFormatter = new Intl.DateTimeFormat('es-ES', {
   year: 'numeric',
 });
 
-// Partimos el cuerpo en párrafos para poder insertar la imagen en medio
 const parrafos = post.body.split(/\n{2,}/).map((p) => p.trim()).filter(Boolean);
 const corte = Math.min(2, parrafos.length);
 const primeros = parrafos.slice(0, corte);
@@ -47,13 +46,15 @@ const restantes = parrafos.slice(corte);
     <a href="/" class="back-link">&larr; Volver a portada</a>
 
     {post.data.image && (
-  <div class="post-detail__banner">
-    <img src={post.data.image} alt={post.data.title} width="1344" height="768" />
-  </div>
-)}
+      <div class="post-detail__banner">
+        <img src={post.data.image} alt={post.data.title} width="1344" height="768" />
+      </div>
+    )}
 
     <span class="cartela">
-      {dateFormatter.format(post.data.date)}
+      <time datetime={post.data.date.toISOString()}>
+        {dateFormatter.format(post.data.date)}
+      </time>
       {post.data.category && ` · ${post.data.category}`}
     </span>
 
@@ -72,7 +73,11 @@ const restantes = parrafos.slice(corte);
             width="1344"
             height="768"
           />
-          {post.data.bodyCaption && <figcaption>{post.data.bodyCaption}</figcaption>}
+          {post.data.bodyCaption && (
+            <figcaption>
+              <span class="lamina">Lám. II</span>{post.data.bodyCaption}
+            </figcaption>
+          )}
         </figure>
       )}
 

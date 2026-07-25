@@ -12,6 +12,7 @@
   --verdaccio: #7a7f66;
   --line: #ddd6c5;
 
+  /* --- Tipografía --- */
   --font-display: 'Cormorant Garamond', Georgia, serif;
   --font-body: 'EB Garamond', Georgia, serif;
 
@@ -27,7 +28,7 @@ html {
 
 body {
   margin: 0;
-  background: var(--paper);
+  background: var(--plaster);
   color: var(--ink);
   font-family: var(--font-body);
   font-size: 1.15rem;
@@ -40,11 +41,11 @@ a { color: inherit; }
 
 img { max-width: 100%; display: block; }
 
-::selection { background: var(--ochre); color: var(--paper); }
+::selection { background: var(--ochre); color: var(--plaster); }
 
 a:focus-visible,
 button:focus-visible {
-  outline: 2px solid var(--umber);
+  outline: 2px solid var(--sinopia);
   outline-offset: 3px;
 }
 
@@ -76,25 +77,24 @@ button:focus-visible {
   color: var(--ink);
   text-decoration: none;
   margin-bottom: 0.6rem;
+  text-wrap: balance;
 }
 
 .site-tagline {
   display: block;
-  font-family: var(--font-body);
   font-variant: small-caps;
   font-size: 0.86rem;
   letter-spacing: 0.16em;
   color: var(--ink-soft);
 }
 
-/* --- Etiqueta de cartela (fecha y sección) --- */
+/* --- Cartela (fecha y sección) --- */
 .cartela {
   display: block;
-  font-family: var(--font-body);
   font-variant: small-caps;
   font-size: 0.8rem;
   letter-spacing: 0.14em;
-  color: var(--oxblood);
+  color: var(--sinopia);
   margin-bottom: 0.5rem;
 }
 
@@ -129,8 +129,8 @@ button:focus-visible {
   margin-bottom: 1.25rem;
   border: 1px solid var(--line);
   background:
-    radial-gradient(circle at 30% 40%, rgba(168, 118, 42, 0.28), transparent 55%),
-    linear-gradient(160deg, var(--olive), var(--umber));
+    radial-gradient(circle at 35% 40%, rgba(193, 154, 75, 0.22), transparent 60%),
+    linear-gradient(150deg, var(--plaster-dim), #dcd3c0);
 }
 
 .post-card__banner img {
@@ -149,7 +149,7 @@ button:focus-visible {
   text-wrap: balance;
 }
 
-.post-card:hover .post-card__title { color: var(--umber); }
+.post-card:hover .post-card__title { color: var(--sinopia); }
 
 .post-card__excerpt {
   margin: 0;
@@ -166,7 +166,6 @@ button:focus-visible {
   overflow: hidden;
   margin-bottom: 1.75rem;
   border: 1px solid var(--line);
-  box-shadow: 0 1px 0 rgba(44, 35, 24, 0.06);
 }
 
 .post-detail__banner img {
@@ -202,7 +201,7 @@ button:focus-visible {
   -webkit-hyphens: auto;
 }
 
-/* Capitular en el primer párrafo */
+/* Capitular en rojo sinopia */
 .post-detail__body > p:first-of-type::first-letter {
   float: left;
   font-family: var(--font-display);
@@ -210,7 +209,7 @@ button:focus-visible {
   font-size: 3.9rem;
   line-height: 0.82;
   padding: 0.1rem 0.55rem 0 0;
-  color: var(--umber);
+  color: var(--sinopia);
 }
 
 /* --- Imagen dentro del cuerpo --- */
@@ -231,6 +230,14 @@ button:focus-visible {
   color: var(--ink-soft);
   text-align: center;
   padding: 0 1rem;
+}
+
+.post-body-figure .lamina {
+  font-style: normal;
+  font-variant: small-caps;
+  letter-spacing: 0.1em;
+  color: var(--sinopia);
+  margin-right: 0.4rem;
 }
 
 /* --- Navegación entre noticias --- */
@@ -254,7 +261,7 @@ button:focus-visible {
   color: var(--ink);
 }
 
-.post-nav__link:hover { color: var(--umber); }
+.post-nav__link:hover { color: var(--sinopia); }
 .post-nav__link--next { text-align: right; }
 
 .post-nav__label {
@@ -264,7 +271,7 @@ button:focus-visible {
   font-variant: small-caps;
   font-size: 0.78rem;
   letter-spacing: 0.13em;
-  color: var(--oxblood);
+  color: var(--sinopia);
   margin-bottom: 0.3rem;
 }
 
@@ -274,11 +281,11 @@ button:focus-visible {
   font-size: 0.82rem;
   letter-spacing: 0.13em;
   text-decoration: none;
-  color: var(--umber);
+  color: var(--azurite);
   margin-bottom: 1.75rem;
 }
 
-.back-link:hover { color: var(--oxblood); }
+.back-link:hover { color: var(--sinopia); }
 
 /* --- Footer --- */
 .site-footer {
@@ -326,7 +333,7 @@ button:focus-visible {
   font-variant: small-caps;
   font-size: 0.8rem;
   letter-spacing: 0.13em;
-  color: var(--oxblood);
+  color: var(--sinopia);
   margin-top: 0.9rem;
 }
 
@@ -335,12 +342,12 @@ button:focus-visible {
   font-size: 1.05rem;
   padding: 0.6rem 0.75rem;
   border: 1px solid var(--line);
-  background: var(--paper-dim);
+  background: var(--plaster-dim);
   color: var(--ink);
 }
 
 .generar__input:focus-visible {
-  outline: 2px solid var(--umber);
+  outline: 2px solid var(--sinopia);
   outline-offset: 1px;
 }
 
@@ -352,9 +359,9 @@ button:focus-visible {
   font-variant: small-caps;
   letter-spacing: 0.09em;
   padding: 0.6rem 1.6rem;
-  border: 1px solid var(--umber);
-  background: var(--umber);
-  color: var(--paper);
+  border: 1px solid var(--sinopia);
+  background: var(--sinopia);
+  color: var(--plaster);
   cursor: pointer;
   align-self: flex-start;
 }
@@ -369,9 +376,9 @@ button:focus-visible {
   line-height: 1.55;
   padding: 0.8rem 1rem;
   border-left: 3px solid var(--line);
-  background: var(--paper-dim);
+  background: var(--plaster-dim);
 }
 
-.generar__msg[data-tipo="ok"]    { border-color: var(--olive); }
-.generar__msg[data-tipo="error"] { border-color: var(--oxblood); }
+.generar__msg[data-tipo="ok"]    { border-color: var(--verdaccio); }
+.generar__msg[data-tipo="error"] { border-color: var(--sinopia); }
 .generar__msg[data-tipo="info"]  { border-color: var(--ochre); }
