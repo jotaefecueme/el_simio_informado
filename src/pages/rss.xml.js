@@ -7,8 +7,8 @@ export async function GET(context) {
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
   return rss({
-    title: 'El Simio Informado',
-    description: 'Noticias reales de España, contadas por monos.',
+    title: 'El simio informado',
+    description: 'Noticias reales, contadas por monos.',
     site: context.site,
     items: posts.map((post) => ({
       title: post.data.title,
